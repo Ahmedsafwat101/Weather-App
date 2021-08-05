@@ -1,8 +1,6 @@
 const path = require('path')
 const express = require('express')
 const hbs = require('hbs')
-const { NOTFOUND } = require('dns')
-const queryString = require('query-string');
 const geocode = require('./utils/geocode')
 const forecast = require('./utils/forecast')
 
@@ -25,14 +23,14 @@ app.use(express.static(publicDirectoryPath))
 app.get('', (req, res) => {
     res.render('index', {
         title: 'Weather',
-        name: 'Ahmed Safwat'
+        name: 'Andrew Mead'
     })
 })
 
 app.get('/about', (req, res) => {
     res.render('about', {
         title: 'About Me',
-        name: 'Ahmed Safwat'
+        name: 'Andrew Mead'
     })
 })
 
@@ -40,58 +38,65 @@ app.get('/help', (req, res) => {
     res.render('help', {
         helpText: 'This is some helpful text.',
         title: 'Help',
-        name: 'Ahmed Safwat'
+        name: 'Andrew Mead'
     })
 })
 
 app.get('/weather', (req, res) => {
-    const valid = (/^[a-zA-Z]/.test(req.query.address))
-    if(!valid ||!req.query.address){
+    if (!req.query.address) {
         return res.send({
-            error: 'No address is provided'
+            error: 'You must provide an address!'
         })
     }
 
-    geocode(req.query.address,(error, {latitude, longitude,location,address}={})=>{
-        if(error) console.log('Error', error)
-        else{
-            console.log('Data', latitude, longitude, location,address)
+    geocode(req.query.address, (error, { latitude, longitude, location } = {}) => {
+        if (error) {
+            return res.send({ error })
         }
 
-        forecast(latitude, longitude, (error, forecast) => {   
-           res.send({ 
-            forecast,error,location,address
-           })
+        forecast(latitude, longitude, (error, forecastData) => {
+            if (error) {
+                return res.send({ error })
+            }
+
+            res.send({
+                forecast: forecastData,
+                location,
+                address: req.query.address
+            })
         })
-  
-    
-            
-    }) 
-
-
-
+    })
 })
 
+app.get('/products', (req, res) => {
+    if (!req.query.search) {
+        return res.send({
+            error: 'You must provide a search term'
+        })
+    }
 
+    console.log(req.query.search)
+    res.send({
+        products: []
+    })
+})
+
+app.get('/help/*', (req, res) => {
+    res.render('404', {
+        title: '404',
+        name: 'Andrew Mead',
+        errorMessage: 'Help article not found.'
+    })
+})
 
 app.get('*', (req, res) => {
-    res.render('404',{
-       title:'Not Found',
-       name:'Ahmed Safwat'
+    res.render('404', {
+        title: '404',
+        name: 'Andrew Mead',
+        errorMessage: 'Page not found.'
     })
 })
 
 app.listen(port, () => {
-    console.log('Server is up on port'+port+'.')
+    console.log('Server is up on port ' + port)
 })
-
-
-/*
-
-  What is  Query String
-  A query string is a part of a uniform resource locator (URL) that assigns values to specified parameters.
-   A query string commonly includes fields added to a base URL by a Web browser or other client application, 
-   for example as part of an HTML form.
-
-   
-*/
