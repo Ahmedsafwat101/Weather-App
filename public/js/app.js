@@ -9,7 +9,7 @@ weatherForm.addEventListener('submit',(e)=>{
     $( "#locationData" ).text("Loading..")
     $( "#forcastData" ).text("")
 
-    fetch('http://localhost:3000/weather?address='+input.value).then((response) => {
+    fetch('/weather?address='+input.value).then((response) => {
         response.json().then((data) => {
 
             if (data.error) {
