@@ -1,5 +1,5 @@
 {
-  "name": "web-server",
+  "name": "weather-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "hbs": "^4.0.1",
+    "query-string": "^7.0.1",
     "request": "^2.88.0"
   }
 }
