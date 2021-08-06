@@ -5,8 +5,8 @@ const input = document.querySelector('input')
 weatherForm.addEventListener('submit',(e)=>{
     e.preventDefault()
     $("#locationData").css({"color":"green"})
-    $( "#locationData" ).text("Loading..")
-    $( "#forcastData" ).text("")
+    $("#locationData" ).text("Loading..")
+    $("#forcastData" ).text("")
 
     fetch('/weather?address='+input.value).then((response) => {
         response.json().then((data) => {
@@ -32,3 +32,14 @@ weatherForm.addEventListener('submit',(e)=>{
     })
     
 })
+
+
+
+// Help Page 
+$("github").click(()=>{
+    window.location.href = "https://github.com"
+})
+
+$('body').on('click','card',function(){alert('it works');})
+
+
