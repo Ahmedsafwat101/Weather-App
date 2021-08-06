@@ -59,7 +59,7 @@ npm run Start
 Clone the project
 
 ```bash
-git clone https://github.com/Ahmedsafwat101/Interactive-commandLine-Notes
+git clone https://github.com/Ahmedsafwat101/Weather-App.git
 ```
 
 Go to the project directory
